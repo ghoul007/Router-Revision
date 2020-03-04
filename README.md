@@ -39,3 +39,32 @@ With fragment (#loading)
   fragment="loading">
 </a>
 ```
+
+
+### Use navigate in Ts 
+
+Relative path
+
+```ts
+
+this.router.navigate(['edit'],{relativeTo:this.route});
+```
+
+or 
+
+```ts
+this.router.navigate(['../'],{relativeTo:this.route});
+```
+
+With queryParams
+
+```ts
+this.router.navigate(['/servers',id,'edit'],{queryParams:{allowEdit:'1'}});
+```
+
+
+With fragment (#loading)
+
+```ts
+this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
+```
