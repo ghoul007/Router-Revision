@@ -73,7 +73,7 @@ this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
 ### AuthGuard
 
 #### CanActivate
-
+Interface that a class can implement to be a guard deciding if a route can be activated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled
 ```ts
     constructor(private authService:AuthService, private router:Router){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> 
@@ -87,10 +87,11 @@ this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
         });
     }
   ```
-  in HTML 
-
 
   #### CanActivateChild
+
+  Interface that a class can implement to be a guard deciding if a child route can be activated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled
+
   ```ts
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>
     {
@@ -113,4 +114,49 @@ this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
       ]
     },
 
+  ```
+
+
+
+  #### CanDeactivate
+
+  Interface that a class can implement to be a guard deciding if a route can be deactivated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled.
+
+
+  ```ts
+import { Observable } from "rxjs";
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+
+export interface CanComponentDeactive{
+    canDeactive:()=>  boolean | Observable<boolean> | Promise<boolean> ;
+} 
+
+export class CanDeactiveGuard implements CanDeactivate<CanComponentDeactive> {
+    canDeactivate(
+        component: CanComponentDeactive, 
+        currentRoute: ActivatedRouteSnapshot, 
+        currentState: RouterStateSnapshot, 
+        nextState?: RouterStateSnapshot)
+        : boolean | Observable<boolean> | Promise<boolean> {
+         return component.canDeactive();
+    }
+}
+```
+
+in edit-server.component.ts
+```ts
+canDeactive(): boolean | Observable<boolean> | Promise<boolean>
+  {
+   if(!this.allowEdit)
+      return false;    // continue to deactivate
+   if(
+    (this.serverName!=this.server.name || this.serverStatus!=this.server.status)
+      &&
+    !this.changesSaved){
+      return confirm('Do you want to discard the changes?');
+    }
+    else{
+      return true;
+    }
+  }
   ```
