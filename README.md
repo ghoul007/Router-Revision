@@ -74,6 +74,8 @@ this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
 
 #### CanActivate
 Interface that a class can implement to be a guard deciding if a route can be activated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled
+[See more](https://angular.io/api/router/CanActivate)
+
 ```ts
     constructor(private authService:AuthService, private router:Router){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> 
@@ -91,7 +93,7 @@ Interface that a class can implement to be a guard deciding if a route can be ac
   #### CanActivateChild
 
   Interface that a class can implement to be a guard deciding if a child route can be activated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled
-
+[See more](https://angular.io/api/router/CanActivateChild)
   ```ts
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>
     {
@@ -121,7 +123,7 @@ Interface that a class can implement to be a guard deciding if a route can be ac
   #### CanDeactivate
 
   Interface that a class can implement to be a guard deciding if a route can be deactivated. If all guards return true, navigation will continue. If any guard returns false, navigation will be cancelled.
-
+[See more](https://angular.io/api/router/CanActivate)
 
   ```ts
 import { Observable } from "rxjs";
