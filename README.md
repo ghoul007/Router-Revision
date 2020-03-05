@@ -70,6 +70,29 @@ this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
 ```
 
 
+
+### Get Params or QueryParams from URL
+
+* Params
+
+    - ``` this.route.snapshot.params['id']```
+    - ```ts this.route.params
+      .subscribe(
+        (param: Params) => {
+          this.user.id = param['id'];
+          this.user.name = param['name'];
+      });```
+
+* QueryParams
+
+    - ``` this.route.snapshot.queryParams['id']```
+    - ```ts this.route.queryParams
+      .subscribe(
+        (queryParams: Params) => {
+          this.user.id = queryParams['id'];
+          this.user.name = queryParams['name'];
+      });```
+
 ### AuthGuard
 
 #### CanActivate
