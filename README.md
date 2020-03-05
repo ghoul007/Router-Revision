@@ -68,3 +68,49 @@ With fragment (#loading)
 ```ts
 this.router.navigate(['/servers',id,'edit'],{fragment:'loading'});
 ```
+
+
+### AuthGuard
+
+#### CanActivate
+
+```ts
+    constructor(private authService:AuthService, private router:Router){}
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> 
+    {
+        return this.authService.isAuthenticated()
+        .then((authenticated:boolean)=>{
+            if(authenticated)
+                return true;
+            else
+                this.router.navigate(['/']);
+        });
+    }
+  ```
+  in HTML 
+
+
+  #### CanActivateChild
+  ```ts
+    canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>
+    {
+        return this.canActivate(route,state);
+    }
+  ```
+
+
+  in app-routing.module.ts 
+
+  ```ts
+    {path:'servers',
+      // canActivate:[AuthGuard],
+      canActivateChild:[AuthGuard],
+      component:ServersComponent,
+      children:
+      [
+        {path:':id',component:ServerComponent},
+        {path:':id/edit',component:EditServerComponent}
+      ]
+    },
+
+  ```
