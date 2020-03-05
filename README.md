@@ -162,3 +162,51 @@ canDeactive(): boolean | Observable<boolean> | Promise<boolean>
     }
   }
   ```
+
+
+ #### Resolve
+Interface that classes can implement to be a data provider. A data provider class can be used with the router to resolve data during navigation. The interface defines a resolve() method that will be invoked when the navigation start
+[See more](https://angular.io/api/router/Resolve)
+
+
+ServerResolver.ts
+ ```ts
+ interface Server{
+    id:number;
+    name:string;
+    status:string;
+}
+@Injectable()
+
+export class ServerResolver implements Resolve<Server> {
+    constructor(private serversService:ServersService){}
+    resolve(
+        route: ActivatedRouteSnapshot, 
+        state: RouterStateSnapshot)
+        : 
+        Server | Observable<Server> | Promise<Server> 
+        {
+            return this.serversService.getServer(+route.params['id']);
+        }
+}
+```
+
+in ServerComponent
+```ts
+export class ServerComponent implements OnInit {
+  server: {id: number, name: string, status: string};
+  //paramSubscription:Subscription;
+  
+  constructor(private serversService: ServersService,
+              private route:ActivatedRoute,
+              private router:Router) { }
+
+  ngOnInit() {
+    this.route.data
+    .subscribe(
+      (data:Data)=>{
+        this.server=data['serverResolved'];
+      }
+    );
+  }
+  ```
